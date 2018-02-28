@@ -25,7 +25,7 @@ class Controller_Users extends Controller_Rest
 			$password = $_POST['password'];
 			$email = $_POST['email'];
 
-
+               //Obtiene la longitud de un string
 			if (strlen($password) < 5 || strlen($password) > 12){
 				return $this->createResponse(400, 'La contraseña debe tener entre 5 y 12 caracteres');
 			}
@@ -582,30 +582,6 @@ class Controller_Users extends Controller_Rest
 	}
 
 	function get_allusers(){
-		try{
-
-			if(!isset(apache_request_headers()['Authorization']) || apache_request_headers()['Authorization'] == ""){
-				return $this->createResponse(400, 'Falta el token en el header');
-			}
-
-			$jwt = apache_request_headers()['Authorization'];
-
-			if($this->validateToken($jwt)){
-
-				$users = Model_Users::find('all');
-
-				return $this->createResponse(200, 'Todos los usuarios devueltos', ['users' => $users]);
-
-			}else{
-				return $this->createResponse(400, 'No tienes permiso para realizar esta acción');
-			}
-
-		}catch(Exception $e){
-			return $this->createResponse(500, $e->getMessage());
-		}
-	}
-
-	function get_nearusers(){
 		try{
 
 			if(!isset(apache_request_headers()['Authorization']) || apache_request_headers()['Authorization'] == ""){

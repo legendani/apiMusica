@@ -63,40 +63,6 @@ class Controller_Songs extends Controller_Rest{
         }      
 	}
 
-    function post_song(){
-        try{
-            $jwt = apache_request_headers()['Authorization'];
-
-            if($this->validateToken($jwt)){
-
-                if(!isset($_POST['id']) || $_POST['id'] == ""){
-                    return $this->createResponse(400, 'Parámetros incorrectos, falta parámetro id');
-                }
-
-                $id = $_POST['id'];
-           
-                $song = Model_Songs::find($id);
-
-                if($song != null){
-                    $song->reproductions += 1;
-                    $song->save();
-
-                    return $this->createResponse(200, 'Canción devuelta', ['song' => $song]);
-                }else{
-                    return $this->createResponse(400, 'La canción no existe');
-                }
-              
-            }else{
-
-                return $this->createResponse(400, 'No tienes permiso para realizar esta acción');
-
-            }
-        }catch (Exception $e) {
-            return $this->createResponse(500, $e->getMessage());
-
-        }
-    }
-
     function get_song(){
         try{
             $jwt = apache_request_headers()['Authorization'];
